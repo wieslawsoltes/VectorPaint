@@ -35,18 +35,14 @@ public class VectorCanvas : Control
             var point = e.GetCurrentPoint(this).Position;
 
             _start = point;
-            
+
             foreach (var drawable in mainWindowViewModel.Drawables)
             {
-                if (drawable.Geometry is { })
+                var contains = drawable.HitTest(point);
+                if (contains)
                 {
-                    var contains = drawable.HitTest(point);
-                    if (contains)
-                    {
-                        _drawable = drawable;
-                        Debug.WriteLine($"{drawable.Geometry.Bounds} {point}");
-                        break;
-                    }
+                    _drawable = drawable;
+                    break;
                 }
             }
 
