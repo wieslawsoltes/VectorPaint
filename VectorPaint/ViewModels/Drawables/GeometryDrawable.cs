@@ -32,6 +32,13 @@ public abstract class GeometryDrawable : Drawable
             return true;
         }
 
+        /*
+        if (Geometry.Bounds.Contains(point))
+        {
+            return true;
+        }
+        */
+
         return false;
     }
 
@@ -65,16 +72,8 @@ public abstract class GeometryDrawable : Drawable
             return;
         }
 
-        DrawingContext.PushedState? pushedState = null; 
- 
-        if (Geometry.Transform is {  })
-        {
-            pushedState = context.PushPreTransform(Geometry.Transform.Value);
-        }
-
         context.DrawGeometry(Brush, Pen, Geometry);
 
-        pushedState?.Dispose();
     }
 
     public static GeometryDrawable? Combine(GeometryCombineMode combineMode, GeometryDrawable g1, GeometryDrawable g2)
