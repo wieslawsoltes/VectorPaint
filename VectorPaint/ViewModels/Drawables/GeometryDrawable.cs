@@ -1,8 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Avalonia;
 using Avalonia.Media;
-using Avalonia.Platform;
 
 namespace VectorPaint.ViewModels.Drawables;
 
@@ -62,33 +60,27 @@ public abstract class GeometryDrawable : Drawable
     public override void Draw(DrawingContext context)
     {
         Geometry ??= CreateGeometry();
-
-        if (Geometry is { })
+        if (Geometry is null)
         {
-            DrawingContext.PushedState? pushedState = null; 
- 
-            if (Geometry.Transform is {  })
-            {
-                pushedState = context.PushPreTransform(Geometry.Transform.Value);
-            }
-
-            context.DrawGeometry(Brush, Pen, Geometry);
-
-            pushedState?.Dispose();
+            return;
         }
+
+        DrawingContext.PushedState? pushedState = null; 
+ 
+        if (Geometry.Transform is {  })
+        {
+            pushedState = context.PushPreTransform(Geometry.Transform.Value);
+        }
+
+        context.DrawGeometry(Brush, Pen, Geometry);
+
+        pushedState?.Dispose();
     }
 
     public static GeometryDrawable? Combine(GeometryCombineMode combineMode, GeometryDrawable g1, GeometryDrawable g2)
     {
-        if (g1.Geometry is null)
-        {
-            g1.Geometry = g1.CreateGeometry();
-        }
-
-        if (g2.Geometry is null)
-        {
-            g2.Geometry = g2.CreateGeometry();
-        }
+        g1.Geometry ??= g1.CreateGeometry();
+        g2.Geometry ??= g2.CreateGeometry();
 
         if (g1.Geometry is { } && g2.Geometry is { })
         {
@@ -99,9 +91,10 @@ public abstract class GeometryDrawable : Drawable
                 Geometry2 = g2.Geometry
             };
 
-            var path = new PathDrawable();
-
-            path.Geometry = combinedGeometry;
+            var path = new PathDrawable
+            {
+                Geometry = combinedGeometry
+            };
 
             return path;
         }
@@ -130,9 +123,10 @@ public abstract class GeometryDrawable : Drawable
             Children = children
         };
 
-        var path = new PathDrawable();
-
-        path.Geometry = geometryGroup;
+        var path = new PathDrawable
+        {
+            Geometry = geometryGroup
+        };
 
         return path;
     }
