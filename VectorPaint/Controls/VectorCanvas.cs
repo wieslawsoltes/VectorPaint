@@ -9,6 +9,9 @@ namespace VectorPaint.Controls;
 
 public class VectorCanvas : Control
 {
+    private Drawable? _drawable;
+    private Point _start;
+
     public override void Render(DrawingContext context)
     {
         if (DataContext is MainWindowViewModel mainWindowViewModel)
@@ -24,9 +27,6 @@ public class VectorCanvas : Control
         base.Render(context);
     }
 
-    private Drawable? _drawable;
-    private Point _start;
-    
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
         if (DataContext is MainWindowViewModel mainWindowViewModel)
