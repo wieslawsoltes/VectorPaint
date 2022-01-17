@@ -18,7 +18,7 @@ public class VectorCanvas : Control
 
             foreach (var drawable in mainWindowViewModel.Drawables)
             {
-                drawable.Draw(context.PlatformImpl);
+                drawable.Draw(context);
             }
         }
         

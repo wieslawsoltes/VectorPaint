@@ -51,19 +51,13 @@ public class RectangleDrawable : GeometryDrawable
             new Point(_bottomRight.X, _bottomRight.Y));
     }
     
-    protected sealed override IGeometryImpl? CreateGeometry()
+    protected sealed override Geometry? CreateGeometry()
     {
         if (_topLeft is null || _bottomRight is null)
         {
             return null;
         }
 
-        var geometry = AvaloniaExtensions.Factory?.CreateRectangleGeometry(ToRect());
-        if (geometry is null)
-        {
-            return null;
-        }
-
-        return geometry;
+        return new RectangleGeometry(ToRect());
     }
 }

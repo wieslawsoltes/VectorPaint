@@ -1,5 +1,5 @@
 using Avalonia;
-using Avalonia.Platform;
+using Avalonia.Media;
 using ReactiveUI;
 
 namespace VectorPaint.ViewModels.Drawables;
@@ -46,7 +46,7 @@ public class PointDrawable : Drawable
         throw new System.NotImplementedException();
     }
 
-    public override void Draw(IDrawingContextImpl context)
+    public override void Draw(DrawingContext context)
     {
         throw new System.NotImplementedException();
     }

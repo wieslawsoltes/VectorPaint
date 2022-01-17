@@ -49,19 +49,14 @@ public class LineDrawable : GeometryDrawable
         }
     }
 
-    protected sealed override IGeometryImpl? CreateGeometry()
+    protected sealed override Geometry? CreateGeometry()
     {
         if (_start is null || _end is null)
         {
             return null;
         }
 
-        var geometry = AvaloniaExtensions.Factory?.CreateStreamGeometry();
-        if (geometry is null)
-        {
-            return null;
-        }
-
+        var geometry = new StreamGeometry();
         using var context = geometry.Open();
         context.SetFillRule(FillRule.EvenOdd);
         context.BeginFigure(new Point(_start.X, _start.Y), false);
