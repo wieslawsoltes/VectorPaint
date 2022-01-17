@@ -72,9 +72,9 @@ public class VectorCanvas : Control
             var point = e.GetCurrentPoint(this).Position;
 
             _drawable.Move(point - _start);
-            
+
             _start = point;
-            
+
             InvalidateVisual();
         }
 
