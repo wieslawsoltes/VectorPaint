@@ -81,25 +81,25 @@ public abstract class GeometryDrawable : Drawable
     {
         g1.Geometry ??= g1.CreateGeometry();
         g2.Geometry ??= g2.CreateGeometry();
-
-        if (g1.Geometry is { } && g2.Geometry is { })
+        if (g1.Geometry is null || g2.Geometry is null)
         {
-            var combinedGeometry = new CombinedGeometry()
-            {
-                GeometryCombineMode = combineMode,
-                Geometry1 = g1.Geometry,
-                Geometry2 = g2.Geometry
-            };
-
-            var path = new PathDrawable
-            {
-                Geometry = combinedGeometry
-            };
-
-            return path;
+            return null;
         }
 
-        return null;
+        var combinedGeometry = new CombinedGeometry()
+        {
+            GeometryCombineMode = combineMode,
+            Geometry1 = g1.Geometry,
+            Geometry2 = g2.Geometry
+        };
+
+        var path = new PathDrawable
+        {
+            Geometry = combinedGeometry
+        };
+
+        return path;
+
     }
 
     public static GeometryDrawable? Group(FillRule fillRule, IEnumerable<GeometryDrawable> drawables)
