@@ -44,14 +44,14 @@ public class MainWindowViewModel : ViewModelBase
         var combined0 = GeometryDrawable.Combine(GeometryCombineMode.Union, rect0, rect1);
         if (combined0 is { })
         {
-            combined0.Move(new Vector(90, 0));
+            combined0.Move(new Vector(120, 0));
             _drawables.Add(combined0);
         }
 
         var group0 = GeometryDrawable.Group(FillRule.EvenOdd, new [] { rect0, rect1 });
         if (group0 is { })
         {
-            group0.Move(new Vector(180, 0));
+            group0.Move(new Vector(240, 0));
             _drawables.Add(group0);
         }
     }
