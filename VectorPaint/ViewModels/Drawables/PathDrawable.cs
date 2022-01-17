@@ -14,19 +14,18 @@ public class PathDrawable : GeometryDrawable
 
     public override void Move(Vector delta)
     {
-        if (Geometry is { })
+        if (Geometry is null)
         {
-            if (Geometry.Transform is MatrixTransform matrixTransform)
-            {
-                matrixTransform.Matrix = Matrix.CreateTranslation(
-                    new Vector(
-                        delta.X + matrixTransform.Matrix.M31, 
-                        delta.Y + matrixTransform.Matrix.M32));
-            }
-            else
-            {
-                Geometry.Transform = new MatrixTransform(Matrix.CreateTranslation(delta));
-            }
+            return;
+        }
+
+        if (Geometry.Transform is MatrixTransform matrixTransform)
+        {
+            matrixTransform.Matrix = Matrix.CreateTranslation(delta) * matrixTransform.Matrix;
+        }
+        else
+        {
+            Geometry.Transform = new MatrixTransform(Matrix.CreateTranslation(delta));
         }
     }
 
