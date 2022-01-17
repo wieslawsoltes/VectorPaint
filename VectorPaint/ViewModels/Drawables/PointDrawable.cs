@@ -21,8 +21,6 @@ public class PointDrawable : Drawable
         set => this.RaiseAndSetIfChanged(ref _y, value);
     }
 
-    public override IGeometryImpl? Geometry => null;
-
     public PointDrawable()
     {
     }

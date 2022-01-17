@@ -6,6 +6,8 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="VectorPaint.Views.MainWindow"
         Icon="/Assets/avalonia-logo.ico"
-        Title="VectorPaint">
+        Title="VectorPaint"
+        WindowStartupLocation="CenterScreen"
+        Width="800" Height="600">
   <views:MainView />
 </Window>

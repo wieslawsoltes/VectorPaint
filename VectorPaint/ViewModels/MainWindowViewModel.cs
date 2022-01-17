@@ -19,7 +19,16 @@ public class MainWindowViewModel : ViewModelBase
     {
         _drawables = new ObservableCollection<Drawable>();
         
-        _drawables.Add(new LineDrawable());
+        _drawables.Add(new LineDrawable()
+        {
+            Start = new PointDrawable(30, 30),
+            End = new PointDrawable(150, 150)
+        });
+        _drawables.Add(new RectangleDrawable()
+        {
+            TopLeft = new PointDrawable(210, 30),
+            BottomRight = new PointDrawable(270, 130)
+        });
     }
     
     public void Draw(IDrawingContextImpl context)

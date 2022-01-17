@@ -6,14 +6,10 @@ using ReactiveUI;
 
 namespace VectorPaint.ViewModels.Drawables;
 
-public class LineDrawable : Drawable
+public class LineDrawable : GeometryDrawable
 {
     private PointDrawable? _start;
     private PointDrawable? _end;
-    private IGeometryImpl? _geometry;
-    private ImmutablePen? _pen;
-
-    public override IGeometryImpl? Geometry => _geometry;
 
     public PointDrawable? Start
     {
@@ -29,40 +25,18 @@ public class LineDrawable : Drawable
 
     public LineDrawable()
     {
-        _start = new PointDrawable(30, 30);
-        _end = new PointDrawable(300, 300);
-        _geometry = CreateGeometry();
-        _pen = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Red), 4, null, PenLineCap.Round, PenLineJoin.Miter, 10D);
+        Brush = null;
+        Pen = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Red), 4, null, PenLineCap.Round, PenLineJoin.Miter, 10D);
     }
 
     public override bool HitTest(Point point)
     {
-        if (_geometry is null || _pen is null)
+        if (Geometry is null || Pen is null)
         {
             return false;
         }
 
-        return _geometry.StrokeContains(_pen, point);
-    }
-    
-    public override bool Contains(Point point)
-    {
-        if (_geometry is null || _pen is null)
-        {
-            return false;
-        }
-
-        return _geometry.Bounds.Contains(point);
-    }
-
-    public override bool Intersects(Rect rect)
-    {
-        if (_geometry is null || _pen is null)
-        {
-            return false;
-        }
-
-        return _geometry.Bounds.Intersects(rect);
+        return Geometry.StrokeContains(Pen, point);
     }
 
     public override void Move(Vector delta)
@@ -71,11 +45,11 @@ public class LineDrawable : Drawable
         {
             _start.Move(delta);
             _end.Move(delta);
-            _geometry = CreateGeometry();
+            Geometry = CreateGeometry();
         }
     }
 
-    private IGeometryImpl? CreateGeometry()
+    protected sealed override IGeometryImpl? CreateGeometry()
     {
         if (_start is null || _end is null)
         {
@@ -94,10 +68,5 @@ public class LineDrawable : Drawable
         context.LineTo(new Point(_end.X, _end.Y));
         context.EndFigure(false);
         return geometry;
-    }
-
-    public override void Draw(IDrawingContextImpl context)
-    {
-        context.DrawGeometry(null, _pen, _geometry);
     }
 }
