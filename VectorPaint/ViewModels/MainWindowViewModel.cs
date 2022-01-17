@@ -1,7 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Media;
-using Avalonia.Platform;
 using ReactiveUI;
 using VectorPaint.ViewModels.Drawables;
 
