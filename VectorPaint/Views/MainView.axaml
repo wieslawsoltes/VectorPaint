@@ -31,7 +31,8 @@
 
     <c:VectorCanvas Name="VectorCanvas" 
                     Tools="{Binding Tools}"
-                    CurrentTool="{Binding CurrentTool}"/>
+                    CurrentTool="{Binding CurrentTool}"
+                    ClipToBounds="True" />
 
   </DockPanel>
 
