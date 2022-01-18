@@ -76,6 +76,11 @@ public abstract class GeometryDrawable : Drawable
 
     }
 
+    public override void Invalidate()
+    {
+        Geometry = CreateGeometry();
+    }
+
     public static GeometryDrawable? Combine(GeometryCombineMode combineMode, GeometryDrawable g1, GeometryDrawable g2)
     {
         g1.Geometry ??= g1.CreateGeometry();

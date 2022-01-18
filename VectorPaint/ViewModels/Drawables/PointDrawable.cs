@@ -56,4 +56,9 @@ public class PointDrawable : Drawable
         X += delta.X;
         Y += delta.Y;
     }
+
+    public override void Invalidate()
+    {
+        throw new System.NotImplementedException();
+    }
 }

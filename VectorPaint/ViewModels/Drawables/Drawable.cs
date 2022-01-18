@@ -15,4 +15,5 @@ public abstract class Drawable : ReactiveObject
     public abstract bool Contains(Point point);
 
     public abstract bool Intersects(Rect rect);
+    public abstract void Invalidate();
 }
