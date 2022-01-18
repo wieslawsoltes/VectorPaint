@@ -8,16 +8,6 @@ using VectorPaint.ViewModels.Drawables;
 
 namespace VectorPaint.ViewModels;
 
-public interface IDrawing
-{
-    ObservableCollection<Drawable> Drawables { get; set; }
-    Drawable? HitTest(Point point);
-    void Draw(DrawingContext context, Rect bounds);
-    void Invalidate();
-    IVisual? Canvas { get; set; }
-    IInputElement? Input { get; set; }
-}
-
 public class MainWindowViewModel : ViewModelBase, IDrawing
 {
     private ObservableCollection<Drawable> _drawables;
