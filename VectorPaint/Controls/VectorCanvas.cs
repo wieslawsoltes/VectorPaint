@@ -83,7 +83,7 @@ public class VectorCanvas : Control
     {
         if (DataContext is IDrawing drawing)
         {
-            drawing.Draw(context, Bounds);
+            drawing.Draw(context, new Rect(new Point(0, 0), Bounds.Size));
         }
 
         base.Render(context);
