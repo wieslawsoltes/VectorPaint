@@ -20,7 +20,8 @@ public class VectorCanvas : Control
             (o, v) => o.Tools = v);
 
     public static readonly DirectProperty<VectorCanvas, Tool?> CurrentToolProperty = 
-        AvaloniaProperty.RegisterDirect<VectorCanvas, Tool?>(nameof(CurrentTool), 
+        AvaloniaProperty.RegisterDirect<VectorCanvas, Tool?>(
+            nameof(CurrentTool), 
             o => o.CurrentTool, 
             (o, v) => o.CurrentTool = v);
 
