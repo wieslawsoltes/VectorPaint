@@ -1,4 +1,5 @@
-﻿using Avalonia;
+﻿using System.Collections.Generic;
+using Avalonia;
 using Avalonia.Input;
 using VectorPaint.ViewModels.Drawables;
 
@@ -6,10 +7,12 @@ namespace VectorPaint.ViewModels.Tools;
 
 public class SelectionTool : Tool
 {
-    private Drawable? _drawable;
+    private readonly HashSet<Drawable> _selected = new();
     private Point _start;
 
     public override string Title => "Selection";
+
+    public HashSet<Drawable> Selected => _selected;
 
     public override void OnPointerPressed(IDrawing drawing, PointerPressedEventArgs e)
     {
@@ -18,28 +21,54 @@ public class SelectionTool : Tool
         var drawable = drawing.HitTest(point);
         if (drawable is { })
         {
-            _drawable = drawable;
+            if (e.KeyModifiers == KeyModifiers.Shift)
+            {
+                _selected.Add(drawable);
+            }
+            else
+            {
+                if (!_selected.Contains(drawable))
+                {
+                    _selected.Clear();
+                    _selected.Add(drawable);
+                }
+            }
+
             _start = point;
             e.Pointer.Capture(drawing.Input);
+        }
+        else
+        {
+            _selected.Clear();
         }
     }
 
     public override void OnPointerReleased(IDrawing drawing, PointerReleasedEventArgs e)
     {
-        if (_drawable is { })
+        if (!Equals(e.Pointer.Captured, drawing.Input))
         {
-            e.Pointer.Capture(null);
-            _drawable = null;
+            return;
         }
+
+        e.Pointer.Capture(null);
     }
 
     public override void OnPointerMoved(IDrawing drawing, PointerEventArgs e)
     {
-        if (_drawable is { })
+        if (!Equals(e.Pointer.Captured, drawing.Input))
+        {
+            return;
+        }
+
+        if (_selected.Count > 0)
         {
             var point = e.GetCurrentPoint(drawing.Input).Position;
 
-            _drawable.Move(point - _start);
+            foreach (var drawable in _selected)
+            {
+                drawable.Move(point - _start);
+            }
+
             _start = point;
 
             drawing.Invalidate();
