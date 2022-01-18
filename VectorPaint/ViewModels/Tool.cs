@@ -1,6 +1,6 @@
 ﻿using Avalonia.Input;
 
-namespace VectorPaint.ViewModels.Tools;
+namespace VectorPaint.ViewModels;
 
 public abstract class Tool
 {
