@@ -1,65 +1,43 @@
-using Avalonia;
+using System.Collections.ObjectModel;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using VectorPaint.ViewModels;
-using VectorPaint.ViewModels.Drawables;
+using VectorPaint.ViewModels.Tools;
 
 namespace VectorPaint.Controls;
 
 public class VectorCanvas : Control
 {
-    private Drawable? _drawable;
-    private Point _start;
+    public ObservableCollection<Tool> Tools { get; set; }
 
-    public override void Render(DrawingContext context)
+    public Tool? CurrentTool { get; set; }
+
+    public VectorCanvas()
     {
-        if (DataContext is MainWindowViewModel mainWindowViewModel)
+        Tools = new ObservableCollection<Tool>()
         {
-            context.DrawRectangle(Brushes.WhiteSmoke, null, Bounds);
+            new SelectionTool()
+        };
 
-            foreach (var drawable in mainWindowViewModel.Drawables)
-            {
-                drawable.Draw(context);
-            }
-        }
-        
-        base.Render(context);
+        CurrentTool = Tools[0];
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
-        if (DataContext is MainWindowViewModel mainWindowViewModel)
+        if (DataContext is IDrawing drawing)
         {
-            var point = e.GetCurrentPoint(this).Position;
-
-            _start = point;
-
-            foreach (var drawable in mainWindowViewModel.Drawables)
-            {
-                var contains = drawable.HitTest(point);
-                if (contains)
-                {
-                    _drawable = drawable;
-                    break;
-                }
-            }
-
-            if (_drawable is { })
-            {
-                e.Pointer.Capture(this);
-            }
+            CurrentTool?.OnPointerPressed(drawing, e);
         }
-        
+
         base.OnPointerPressed(e);
     }
 
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
-        if (_drawable is { })
+        if (DataContext is IDrawing drawing)
         {
-            e.Pointer.Capture(null);
-            _drawable = null;
+            CurrentTool?.OnPointerReleased(drawing, e);
         }
         
         base.OnPointerReleased(e);
@@ -67,17 +45,21 @@ public class VectorCanvas : Control
 
     protected override void OnPointerMoved(PointerEventArgs e)
     {
-        if (_drawable is { })
+        if (DataContext is IDrawing drawing)
         {
-            var point = e.GetCurrentPoint(this).Position;
-
-            _drawable.Move(point - _start);
-
-            _start = point;
-
-            InvalidateVisual();
+            CurrentTool?.OnPointerMoved(drawing, e);
         }
 
         base.OnPointerMoved(e);
+    }
+
+    public override void Render(DrawingContext context)
+    {
+        if (DataContext is IDrawing drawing)
+        {
+            drawing.Draw(context, Bounds);
+        }
+
+        base.Render(context);
     }
 }

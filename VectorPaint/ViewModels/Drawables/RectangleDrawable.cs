@@ -49,7 +49,7 @@ public class RectangleDrawable : GeometryDrawable
             new Point(_topLeft.X, _topLeft.Y),
             new Point(_bottomRight.X, _bottomRight.Y));
     }
-    
+
     protected sealed override Geometry? CreateGeometry()
     {
         if (_topLeft is null || _bottomRight is null)

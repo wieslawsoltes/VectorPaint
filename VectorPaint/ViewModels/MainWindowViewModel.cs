@@ -1,21 +1,37 @@
 ﻿using System.Collections.ObjectModel;
 using Avalonia;
+using Avalonia.Input;
 using Avalonia.Media;
+using Avalonia.VisualTree;
 using ReactiveUI;
 using VectorPaint.ViewModels.Drawables;
 
 namespace VectorPaint.ViewModels;
 
-public class MainWindowViewModel : ViewModelBase
+public interface IDrawing
 {
-    public ObservableCollection<Drawable> _drawables;
-    
+    ObservableCollection<Drawable> Drawables { get; set; }
+    Drawable? HitTest(Point point);
+    void Draw(DrawingContext context, Rect bounds);
+    void Invalidate();
+    IVisual? Canvas { get; set; }
+    IInputElement? Input { get; set; }
+}
+
+public class MainWindowViewModel : ViewModelBase, IDrawing
+{
+    private ObservableCollection<Drawable> _drawables;
+
     public ObservableCollection<Drawable> Drawables
     {
         get => _drawables;
         set => this.RaiseAndSetIfChanged(ref _drawables, value);
     }
-    
+
+    public IVisual? Canvas { get; set; }
+
+    public IInputElement? Input { get; set; }
+
     public MainWindowViewModel()
     {
         _drawables = new ObservableCollection<Drawable>();
@@ -26,6 +42,13 @@ public class MainWindowViewModel : ViewModelBase
             End = new PointDrawable(150, 150)
         };
         _drawables.Add(line0);
+
+        var ellipse0 = new EllipseDrawable()
+        {
+            TopLeft = new PointDrawable(30, 210),
+            BottomRight = new PointDrawable(90, 270)
+        };
+        _drawables.Add(ellipse0);
 
         var rect0 = new RectangleDrawable()
         {
@@ -56,11 +79,32 @@ public class MainWindowViewModel : ViewModelBase
         }
     }
 
-    public void Draw(DrawingContext context)
+    public Drawable? HitTest(Point point)
     {
+        for (var i = _drawables.Count - 1; i >= 0; i--)
+        {
+            var drawable = _drawables[i];
+            if (drawable.HitTest(point))
+            {
+                return drawable;
+            }
+        }
+
+        return null;
+    }
+
+    public void Draw(DrawingContext context, Rect bounds)
+    {
+        context.DrawRectangle(Brushes.WhiteSmoke, null, bounds);
+
         foreach (var drawable in _drawables)
         {
             drawable.Draw(context);
         }
+    }
+
+    public void Invalidate()
+    {
+        Canvas?.InvalidateVisual();
     }
 }
