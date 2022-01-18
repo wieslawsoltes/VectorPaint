@@ -12,6 +12,13 @@ public class MainWindowViewModel : ViewModelBase, IDrawing
 {
     private ObservableCollection<Drawable> _drawables;
 
+    public MainWindowViewModel()
+    {
+        _drawables = new ObservableCollection<Drawable>();
+
+        Demo();
+    }
+
     public ObservableCollection<Drawable> Drawables
     {
         get => _drawables;
@@ -21,13 +28,6 @@ public class MainWindowViewModel : ViewModelBase, IDrawing
     public IVisual? Canvas { get; set; }
 
     public IInputElement? Input { get; set; }
-
-    public MainWindowViewModel()
-    {
-        _drawables = new ObservableCollection<Drawable>();
-
-        Demo();
-    }
 
     private void Demo()
     {
