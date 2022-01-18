@@ -26,6 +26,11 @@ public class MainWindowViewModel : ViewModelBase, IDrawing
     {
         _drawables = new ObservableCollection<Drawable>();
 
+        Demo();
+    }
+
+    private void Demo()
+    {
         var line0 = new LineDrawable()
         {
             Start = new PointDrawable(30, 30),
@@ -46,7 +51,7 @@ public class MainWindowViewModel : ViewModelBase, IDrawing
             BottomRight = new PointDrawable(270, 130)
         };
         _drawables.Add(rect0);
-        
+
         var rect1 = new RectangleDrawable()
         {
             TopLeft = new PointDrawable(240, 90),
@@ -61,7 +66,7 @@ public class MainWindowViewModel : ViewModelBase, IDrawing
             _drawables.Add(combined0);
         }
 
-        var group0 = GeometryDrawable.Group(FillRule.EvenOdd, new [] { rect0, rect1 });
+        var group0 = GeometryDrawable.Group(FillRule.EvenOdd, new[] { rect0, rect1 });
         if (group0 is { })
         {
             group0.Move(new Vector(240, 0));
