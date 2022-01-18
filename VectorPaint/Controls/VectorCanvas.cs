@@ -1,4 +1,5 @@
-using System.Collections.ObjectModel;
+using Avalonia;
+using Avalonia.Collections;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
@@ -9,19 +10,43 @@ namespace VectorPaint.Controls;
 
 public class VectorCanvas : Control
 {
-    public ObservableCollection<Tool> Tools { get; set; }
+    private AvaloniaList<Tool> _tools;
+    private Tool? _currentTool;
 
-    public Tool? CurrentTool { get; set; }
+    public static readonly DirectProperty<VectorCanvas, AvaloniaList<Tool>> ToolsProperty = 
+        AvaloniaProperty.RegisterDirect<VectorCanvas, AvaloniaList<Tool>>(
+            nameof(Tools), 
+            o => o.Tools, 
+            (o, v) => o.Tools = v);
+
+    public static readonly DirectProperty<VectorCanvas, Tool?> CurrentToolProperty = 
+        AvaloniaProperty.RegisterDirect<VectorCanvas, Tool?>(nameof(CurrentTool), 
+            o => o.CurrentTool, 
+            (o, v) => o.CurrentTool = v);
 
     public VectorCanvas()
     {
-        Tools = new ObservableCollection<Tool>()
+        _tools = new AvaloniaList<Tool>()
         {
             new SelectionTool(),
-            new LineTool()
+            new LineTool(),
+            new RectangleTool(),
+            new EllipseTool()
         };
 
-        CurrentTool = Tools[0];
+        _currentTool = Tools[0];
+    }
+
+    public AvaloniaList<Tool> Tools
+    {
+        get => _tools;
+        set => SetAndRaise(ToolsProperty, ref _tools, value);
+    }
+
+    public Tool? CurrentTool
+    {
+        get => _currentTool;
+        set => SetAndRaise(CurrentToolProperty, ref _currentTool, value);
     }
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
