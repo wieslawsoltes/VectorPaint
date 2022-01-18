@@ -4,7 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:c="clr-namespace:VectorPaint.Controls"
              xmlns:vm="clr-namespace:VectorPaint.ViewModels"
-             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="450"
              x:Class="VectorPaint.Views.MainView">
 
   <Design.DataContext>
@@ -13,18 +13,25 @@
 
   <DockPanel>
 
-    <ComboBox Name="Tools"
-              Items="{Binding #VectorCanvas.Tools}"
-              SelectedItem="{Binding #VectorCanvas.CurrentTool}"
-              DockPanel.Dock="Top">
-      <ComboBox.ItemTemplate>
-        <DataTemplate>
-          <TextBlock Text="{Binding Title}" />
-        </DataTemplate>
-      </ComboBox.ItemTemplate>
-    </ComboBox>
+    <DockPanel DockPanel.Dock="Top" Margin="4">
+      <Label>Tool:</Label>
+      <Button Content="Selection" Command="{Binding ToolSelectionCommand}" />
+      <Button Content="Line" Command="{Binding ToolLineCommand}" />
+      <Button Content="Rectangle" Command="{Binding ToolRectangleCommand}" />
+      <Button Content="Ellipse" Command="{Binding ToolEllipseCommand}" />
+      <Label>Combine:</Label>
+      <Button Content="Union" Command="{Binding CombineUnionCommand}" />
+      <Button Content="Intersect" Command="{Binding CombineIntersectCommand}" />
+      <Button Content="Xor" Command="{Binding CombineXorCommand}" />
+      <Button Content="Exclude" Command="{Binding CombineExcludeCommand}" />
+      <Label>Group:</Label>
+      <Button Content="EvenOdd" Command="{Binding GroupEvenOddCommand}" />
+      <Button Content="NonZero" Command="{Binding GroupNonZeroCommand}" />
+    </DockPanel>
 
-    <c:VectorCanvas Name="VectorCanvas" />
+    <c:VectorCanvas Name="VectorCanvas" 
+                    Tools="{Binding Tools}"
+                    CurrentTool="{Binding CurrentTool}"/>
 
   </DockPanel>
 
