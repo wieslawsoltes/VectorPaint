@@ -9,6 +9,8 @@ public class SelectionTool : Tool
     private Drawable? _drawable;
     private Point _start;
 
+    public override string Title => "Selection";
+
     public override void OnPointerPressed(IDrawing drawing, PointerPressedEventArgs e)
     {
         var point = e.GetCurrentPoint(drawing.Input).Position;

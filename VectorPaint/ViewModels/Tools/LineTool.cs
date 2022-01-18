@@ -7,6 +7,8 @@ public class LineTool : Tool
 {
     private LineDrawable? _line;
 
+    public override string Title => "Line";
+
     public override void OnPointerPressed(IDrawing drawing, PointerPressedEventArgs e)
     {
         var point = e.GetCurrentPoint(drawing.Input).Position;
