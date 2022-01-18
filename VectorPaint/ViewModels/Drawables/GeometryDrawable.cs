@@ -81,32 +81,45 @@ public abstract class GeometryDrawable : Drawable
         Geometry = CreateGeometry();
     }
 
-    public static GeometryDrawable? Combine(GeometryCombineMode combineMode, GeometryDrawable g1, GeometryDrawable g2)
+    public static GeometryDrawable? Combine(GeometryCombineMode combineMode, IList<GeometryDrawable> drawables)
     {
-        g1.Geometry ??= g1.CreateGeometry();
-        g2.Geometry ??= g2.CreateGeometry();
-        if (g1.Geometry is null || g2.Geometry is null)
+        if (drawables.Count <= 1)
         {
             return null;
         }
 
-        var combinedGeometry = new CombinedGeometry()
+        drawables[0].Geometry ??= drawables[0].CreateGeometry();
+      
+        var g1 = drawables[0].Geometry;
+
+        for (var i = 1; i < drawables.Count; i++)
         {
-            GeometryCombineMode = combineMode,
-            Geometry1 = g1.Geometry,
-            Geometry2 = g2.Geometry
-        };
+            drawables[i].Geometry ??= drawables[i].CreateGeometry();
+
+            var g2 = drawables[i].Geometry;
+
+            if (g1 is null || g2 is null)
+            {
+                return null;
+            }
+
+            g1 = new CombinedGeometry()
+            {
+                GeometryCombineMode = combineMode,
+                Geometry1 = g1,
+                Geometry2 = g2
+            };
+        }
 
         var path = new PathDrawable
         {
-            Geometry = combinedGeometry
+            Geometry = g1
         };
 
         return path;
-
     }
 
-    public static GeometryDrawable? Group(FillRule fillRule, IEnumerable<GeometryDrawable> drawables)
+    public static GeometryDrawable? Group(FillRule fillRule, IList<GeometryDrawable> drawables)
     {
         var children = new GeometryCollection();
 
