@@ -17,7 +17,8 @@ public class VectorCanvas : Control
     {
         Tools = new ObservableCollection<Tool>()
         {
-            new SelectionTool()
+            new SelectionTool(),
+            new LineTool()
         };
 
         CurrentTool = Tools[0];
