@@ -4,17 +4,16 @@ using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Media;
 using VectorPaint.ViewModels;
-using VectorPaint.ViewModels.Tools;
 
 namespace VectorPaint.Controls;
 
 public class VectorCanvas : Control
 {
-    private AvaloniaList<Tool> _tools;
+    private AvaloniaList<Tool>? _tools;
     private Tool? _currentTool;
 
-    public static readonly DirectProperty<VectorCanvas, AvaloniaList<Tool>> ToolsProperty = 
-        AvaloniaProperty.RegisterDirect<VectorCanvas, AvaloniaList<Tool>>(
+    public static readonly DirectProperty<VectorCanvas, AvaloniaList<Tool>?> ToolsProperty = 
+        AvaloniaProperty.RegisterDirect<VectorCanvas, AvaloniaList<Tool>?>(
             nameof(Tools), 
             o => o.Tools, 
             (o, v) => o.Tools = v);
@@ -25,20 +24,7 @@ public class VectorCanvas : Control
             o => o.CurrentTool, 
             (o, v) => o.CurrentTool = v);
 
-    public VectorCanvas()
-    {
-        _tools = new AvaloniaList<Tool>()
-        {
-            new SelectionTool(),
-            new LineTool(),
-            new RectangleTool(),
-            new EllipseTool()
-        };
-
-        _currentTool = Tools[0];
-    }
-
-    public AvaloniaList<Tool> Tools
+    public AvaloniaList<Tool>? Tools
     {
         get => _tools;
         set => SetAndRaise(ToolsProperty, ref _tools, value);
