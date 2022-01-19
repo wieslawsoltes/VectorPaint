@@ -20,7 +20,7 @@ public class MainView : UserControl
 
     protected override void OnAttachedToVisualTree(VisualTreeAttachmentEventArgs e)
     {
-        if (DataContext is IDrawing drawing)
+        if (DataContext is MainWindowViewModel { Drawing: { } drawing })
         {
             var vectorCanvas = this.FindControl<VectorCanvas>("VectorCanvas");
             if (vectorCanvas is { })
