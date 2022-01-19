@@ -4,16 +4,10 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <Nullable>enable</Nullable>
     <LangVersion>latest</LangVersion>
+    <RootNamespace>VectorPaint</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <AvaloniaResource Include="Assets\**" />
-  </ItemGroup>
-  <ItemGroup>
     <PackageReference Include="Avalonia" Version="0.10.11" />
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.11" />
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\VectorPaint.Base\VectorPaint.Base.csproj" />
   </ItemGroup>
 </Project>

@@ -2,16 +2,17 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:c="clr-namespace:VectorPaint.Controls"
+             xmlns:c="clr-namespace:VectorPaint.Controls;assembly=VectorPaint.Base"
              xmlns:vm="clr-namespace:VectorPaint.ViewModels"
              mc:Ignorable="d" d:DesignWidth="900" d:DesignHeight="450"
+             x:CompileBindings="True" x:DataType="vm:MainWindowViewModel"
              x:Class="VectorPaint.Views.MainView">
 
   <Design.DataContext>
     <vm:MainWindowViewModel />
   </Design.DataContext>
 
-  <DockPanel>
+  <DockPanel DataContext="{Binding Drawing}">
 
     <DockPanel DockPanel.Dock="Top" Margin="4">
       <Label>Tool:</Label>
