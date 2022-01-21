@@ -9,7 +9,7 @@ namespace VectorPaint.ViewModels;
 
 public interface IDrawing
 {
-    ObservableCollection<Drawable> Drawables { get; set; }
+    ObservableCollection<Drawable>? Drawables { get; set; }
     Drawable? HitTest(Point point);
     void Draw(DrawingContext context, Rect bounds);
     void Invalidate();
