@@ -1,4 +1,5 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using Avalonia;
 using Avalonia.Input;
 using Avalonia.Media;
@@ -43,6 +44,23 @@ public class Drawing : ReactiveObject, IDrawing
         }
 
         return null;
+    }
+
+    public IEnumerable<Drawable> HitTest(Rect rect)
+    {
+        if (_drawables is null)
+        {
+            yield break;
+        }
+
+        for (var i = _drawables.Count - 1; i >= 0; i--)
+        {
+            var drawable = _drawables[i];
+            if (drawable.Intersects(rect))
+            {
+                yield return drawable;
+            }
+        }
     }
 
     public void Draw(DrawingContext context, Rect bounds)
