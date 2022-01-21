@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Input;
 using Avalonia;
@@ -15,24 +14,12 @@ namespace VectorPaint.ViewModels;
 
 public class Drawing : ReactiveObject, IDrawing
 {
-    private ObservableCollection<Drawable> _drawables;
-    private AvaloniaList<Tool> _tools;
+    private ObservableCollection<Drawable>? _drawables;
+    private AvaloniaList<Tool>? _tools;
     private Tool? _currentTool;
 
     public Drawing()
     {
-        _drawables = new ObservableCollection<Drawable>();
-
-        _tools = new AvaloniaList<Tool>()
-        {
-            new SelectionTool(),
-            new LineTool(),
-            new RectangleTool(),
-            new EllipseTool()
-        };
-
-        _currentTool = _tools[0];
-
         ToolSelectionCommand = ReactiveCommand.Create(SetCurrentTool<SelectionTool>);
 
         ToolLineCommand = ReactiveCommand.Create(SetCurrentTool<LineTool>);
@@ -52,17 +39,15 @@ public class Drawing : ReactiveObject, IDrawing
         GroupEvenOddCommand = ReactiveCommand.Create(() => Group(FillRule.EvenOdd));
 
         GroupNonZeroCommand = ReactiveCommand.Create(() => Group(FillRule.NonZero));
-
-        Demo();
     }
 
-    public ObservableCollection<Drawable> Drawables
+    public ObservableCollection<Drawable>? Drawables
     {
         get => _drawables;
         set => this.RaiseAndSetIfChanged(ref _drawables, value);
     }
 
-    public AvaloniaList<Tool> Tools
+    public AvaloniaList<Tool>? Tools
     {
         get => _tools;
         set => this.RaiseAndSetIfChanged(ref _tools, value);
@@ -100,7 +85,7 @@ public class Drawing : ReactiveObject, IDrawing
 
     private void SetCurrentTool<T>() where T: Tool
     {
-        var tool = Tools.OfType<T>().FirstOrDefault();
+        var tool = Tools?.OfType<T>().FirstOrDefault();
         if (tool is { })
         {
             CurrentTool = tool;
@@ -110,95 +95,69 @@ public class Drawing : ReactiveObject, IDrawing
     
     private void Combine(GeometryCombineMode combineMode)
     {
-        if (CurrentTool is SelectionTool selectionTool)
+        if (_drawables is null)
         {
-            var selected = selectionTool.Selected.OfType<GeometryDrawable>().ToList();
-            if (selected.Count >= 2)
-            {
-                var group = GeometryDrawable.Combine(combineMode, selected);
-                if (group is { })
-                {
-                    foreach (var drawable in selected)
-                    {
-                        _drawables.Remove(drawable);
-                    }
+            return;
+        }
 
-                    _drawables.Add(group);
-                    Invalidate();
+        if (CurrentTool is not SelectionTool selectionTool)
+        {
+            return;
+        }
+
+        var selected = selectionTool.Selected.OfType<GeometryDrawable>().ToList();
+        if (selected.Count >= 2)
+        {
+            var group = GeometryDrawable.Combine(combineMode, selected);
+            if (@group is { })
+            {
+                foreach (var drawable in selected)
+                {
+                    _drawables.Remove(drawable);
                 }
+
+                _drawables.Add(@group);
+                Invalidate();
             }
         }
     }
 
     private void Group(FillRule fillRule)
     {
-        if (CurrentTool is SelectionTool selectionTool)
+        if (_drawables is null)
         {
-            var selected = selectionTool.Selected.OfType<GeometryDrawable>().ToList();
-            if (selected.Count >= 2)
+            return;
+        }
+
+        if (CurrentTool is not SelectionTool selectionTool)
+        {
+            return;
+        }
+
+        var selected = selectionTool.Selected.OfType<GeometryDrawable>().ToList();
+        if (selected.Count >= 2)
+        {
+            var group = GeometryDrawable.Group(fillRule, selected);
+            if (@group is { })
             {
-                var group = GeometryDrawable.Group(fillRule, selected);
-                if (group is { })
+                foreach (var drawable in selected)
                 {
-                    foreach (var drawable in selected)
-                    {
-                        _drawables.Remove(drawable);
-                    }
-
-                    _drawables.Add(group);
-                    Invalidate();
+                    _drawables.Remove(drawable);
                 }
+
+                _drawables.Add(@group);
+                Invalidate();
             }
-        }
-    }
-
-    private void Demo()
-    {
-        var line0 = new LineDrawable()
-        {
-            Start = new PointDrawable(30, 30),
-            End = new PointDrawable(150, 150)
-        };
-        _drawables.Add(line0);
-
-        var ellipse0 = new EllipseDrawable()
-        {
-            TopLeft = new PointDrawable(30, 210),
-            BottomRight = new PointDrawable(90, 270)
-        };
-        _drawables.Add(ellipse0);
-
-        var rect0 = new RectangleDrawable()
-        {
-            TopLeft = new PointDrawable(210, 30),
-            BottomRight = new PointDrawable(270, 130)
-        };
-        _drawables.Add(rect0);
-
-        var rect1 = new RectangleDrawable()
-        {
-            TopLeft = new PointDrawable(240, 90),
-            BottomRight = new PointDrawable(300, 190)
-        };
-        _drawables.Add(rect1);
-
-        var combined0 = GeometryDrawable.Combine(GeometryCombineMode.Union, new GeometryDrawable[] { rect0, rect1 });
-        if (combined0 is { })
-        {
-            combined0.Move(new Vector(120, 0));
-            _drawables.Add(combined0);
-        }
-
-        var group0 = GeometryDrawable.Group(FillRule.EvenOdd, new GeometryDrawable[] { rect0, rect1 });
-        if (group0 is { })
-        {
-            group0.Move(new Vector(240, 0));
-            _drawables.Add(group0);
         }
     }
 
     public Drawable? HitTest(Point point)
     {
+        if (_drawables is null)
+        {
+            return null;
+        }
+
         for (var i = _drawables.Count - 1; i >= 0; i--)
         {
             var drawable = _drawables[i];
@@ -215,9 +174,12 @@ public class Drawing : ReactiveObject, IDrawing
     {
         context.DrawRectangle(Brushes.WhiteSmoke, null, bounds);
 
-        foreach (var drawable in _drawables)
+        if (_drawables is { })
         {
-            drawable.Draw(context);
+            foreach (var drawable in _drawables)
+            {
+                drawable.Draw(context);
+            }
         }
     }
 
