@@ -11,6 +11,11 @@ public class RectangleTool : Tool
 
     public override void OnPointerPressed(IDrawing drawing, PointerPressedEventArgs e)
     {
+        if (drawing.Drawables is null)
+        {
+            return;
+        }
+
         var point = e.GetCurrentPoint(drawing.Input).Position;
 
         _rectangle = new RectangleDrawable()
