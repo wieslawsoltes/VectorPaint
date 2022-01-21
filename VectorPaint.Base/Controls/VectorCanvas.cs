@@ -9,8 +9,15 @@ namespace VectorPaint.Controls;
 
 public class VectorCanvas : Control
 {
+    private IDrawing? _drawing;
     private AvaloniaList<Tool>? _tools;
     private Tool? _currentTool;
+
+    public static readonly DirectProperty<VectorCanvas, IDrawing?> DrawingProperty = 
+        AvaloniaProperty.RegisterDirect<VectorCanvas, IDrawing?>(
+            nameof(Drawing), 
+            o => o.Drawing, 
+            (o, v) => o.Drawing = v);
 
     public static readonly DirectProperty<VectorCanvas, AvaloniaList<Tool>?> ToolsProperty = 
         AvaloniaProperty.RegisterDirect<VectorCanvas, AvaloniaList<Tool>?>(
@@ -23,6 +30,12 @@ public class VectorCanvas : Control
             nameof(CurrentTool), 
             o => o.CurrentTool, 
             (o, v) => o.CurrentTool = v);
+
+    public IDrawing? Drawing
+    {
+        get => _drawing;
+        set => SetAndRaise(DrawingProperty, ref _drawing, value);
+    }
 
     public AvaloniaList<Tool>? Tools
     {
@@ -38,7 +51,7 @@ public class VectorCanvas : Control
 
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
-        if (DataContext is IDrawing drawing)
+        if (Drawing is { } drawing)
         {
             CurrentTool?.OnPointerPressed(drawing, e);
         }
@@ -48,17 +61,17 @@ public class VectorCanvas : Control
 
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
-        if (DataContext is IDrawing drawing)
+        if (Drawing is { } drawing)
         {
             CurrentTool?.OnPointerReleased(drawing, e);
         }
-        
+
         base.OnPointerReleased(e);
     }
 
     protected override void OnPointerMoved(PointerEventArgs e)
     {
-        if (DataContext is IDrawing drawing)
+        if (Drawing is { } drawing)
         {
             CurrentTool?.OnPointerMoved(drawing, e);
         }
@@ -68,7 +81,7 @@ public class VectorCanvas : Control
 
     public override void Render(DrawingContext context)
     {
-        if (DataContext is IDrawing drawing)
+        if (Drawing is { } drawing)
         {
             drawing.Draw(context, new Rect(new Point(0, 0), Bounds.Size));
         }

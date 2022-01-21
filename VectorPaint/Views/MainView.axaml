@@ -12,9 +12,9 @@
     <vm:MainWindowViewModel />
   </Design.DataContext>
 
-  <DockPanel DataContext="{Binding Drawing}">
+  <DockPanel>
 
-    <DockPanel DockPanel.Dock="Top" Margin="4">
+    <DockPanel DockPanel.Dock="Top" Margin="4" DataContext="{Binding Editor}">
       <Label>Tool:</Label>
       <Button Content="Selection" Command="{Binding ToolSelectionCommand}" />
       <Button Content="Line" Command="{Binding ToolLineCommand}" />
@@ -31,11 +31,11 @@
     </DockPanel>
 
     <c:VectorCanvas Name="VectorCanvas" 
-                    Tools="{Binding Tools}"
-                    CurrentTool="{Binding CurrentTool}"
+                    Drawing="{Binding Drawing}"
+                    Tools="{Binding Editor.Tools}"
+                    CurrentTool="{Binding Editor.CurrentTool}"
                     ClipToBounds="True" />
 
   </DockPanel>
 
 </UserControl>
-

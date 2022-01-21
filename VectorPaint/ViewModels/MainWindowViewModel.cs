@@ -10,6 +10,8 @@ namespace VectorPaint.ViewModels;
 public class MainWindowViewModel : ViewModelBase
 {
     public Drawing Drawing { get; }
+    
+    public DrawingEditor Editor { get; }
 
     public MainWindowViewModel()
     {
@@ -17,7 +19,9 @@ public class MainWindowViewModel : ViewModelBase
 
         Drawing.Drawables = new ObservableCollection<Drawable>();
 
-        Drawing.Tools = new AvaloniaList<Tool>()
+        Editor = new DrawingEditor(Drawing);
+        
+        Editor.Tools = new AvaloniaList<Tool>()
         {
             new SelectionTool(),
             new LineTool(),
@@ -25,7 +29,7 @@ public class MainWindowViewModel : ViewModelBase
             new EllipseTool()
         };
 
-        Drawing.CurrentTool = Drawing.Tools[0];
+        Editor.CurrentTool = Editor.Tools[0];
 
         Demo(Drawing);
     }
