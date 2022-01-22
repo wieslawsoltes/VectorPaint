@@ -10,7 +10,10 @@ namespace VectorPaint.ViewModels;
 
 public interface IDrawing
 {
+    IBrush? DefaultFill { get; set; }
+    IPen? DefaultStroke { get; set; }
     ObservableCollection<Drawable>? Drawables { get; set; }
+    ObservableCollection<Drawable>? OverlayDrawables { get; set; }
     Drawable? HitTest(Point point);
     IEnumerable<Drawable> HitTest(Rect rect);
     void Draw(DrawingContext context, Rect bounds);

@@ -20,6 +20,8 @@ public class RectangleTool : Tool
 
         _rectangle = new RectangleDrawable()
         {
+            Fill = drawing.DefaultFill,
+            Stroke = drawing.DefaultStroke,
             TopLeft = new PointDrawable(point.X, point.Y),
             BottomRight = new PointDrawable(point.X, point.Y)
         };

@@ -6,6 +6,10 @@ namespace VectorPaint.ViewModels.Drawables;
 
 public abstract class Drawable : ReactiveObject
 {
+    public IBrush? Fill { get; set; }
+
+    public IPen? Stroke { get; set; }
+
     public abstract void Draw(DrawingContext context);
 
     public abstract void Move(Vector delta);

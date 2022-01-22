@@ -20,6 +20,8 @@ public class EllipseTool : Tool
 
         _ellipse = new EllipseDrawable()
         {
+            Fill = drawing.DefaultFill,
+            Stroke = drawing.DefaultStroke,
             TopLeft = new PointDrawable(point.X, point.Y),
             BottomRight = new PointDrawable(point.X, point.Y)
         };

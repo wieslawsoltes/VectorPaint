@@ -97,14 +97,14 @@ public class DrawingEditor : ReactiveObject
         if (selected.Count >= 2)
         {
             var group = GeometryDrawable.Combine(combineMode, selected);
-            if (@group is { })
+            if (group is { })
             {
                 foreach (var drawable in selected)
                 {
                     _drawing.Drawables.Remove(drawable);
                 }
 
-                _drawing.Drawables.Add(@group);
+                _drawing.Drawables.Add(group);
                 _drawing.Invalidate();
             }
         }
@@ -126,14 +126,14 @@ public class DrawingEditor : ReactiveObject
         if (selected.Count >= 2)
         {
             var group = GeometryDrawable.Group(fillRule, selected);
-            if (@group is { })
+            if (group is { })
             {
                 foreach (var drawable in selected)
                 {
                     _drawing.Drawables.Remove(drawable);
                 }
 
-                _drawing.Drawables.Add(@group);
+                _drawing.Drawables.Add(group);
                 _drawing.Invalidate();
             }
         }

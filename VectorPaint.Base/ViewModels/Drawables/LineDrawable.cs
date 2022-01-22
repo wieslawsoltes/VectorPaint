@@ -22,20 +22,14 @@ public class LineDrawable : GeometryDrawable
         set => this.RaiseAndSetIfChanged(ref _end, value);
     }
 
-    public LineDrawable()
-    {
-        Brush = null;
-        Pen = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Red), 4, null, PenLineCap.Round, PenLineJoin.Miter, 10D);
-    }
-
     public override bool HitTest(Point point)
     {
-        if (Geometry is null || Pen is null)
+        if (Geometry is null || Stroke is null)
         {
             return false;
         }
 
-        return Geometry.StrokeContains(Pen, point);
+        return Geometry.StrokeContains(Stroke, point);
     }
 
     public override void Move(Vector delta)

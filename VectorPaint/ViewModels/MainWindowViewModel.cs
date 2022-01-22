@@ -2,6 +2,7 @@
 using Avalonia;
 using Avalonia.Collections;
 using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using VectorPaint.ViewModels.Drawables;
 using VectorPaint.ViewModels.Tools;
 
@@ -15,18 +16,23 @@ public class MainWindowViewModel : ViewModelBase
 
     public MainWindowViewModel()
     {
-        Drawing = new Drawing();
-
-        Drawing.Drawables = new ObservableCollection<Drawable>();
-
-        Editor = new DrawingEditor(Drawing);
-        
-        Editor.Tools = new AvaloniaList<Tool>()
+        Drawing = new Drawing
         {
-            new SelectionTool(),
-            new LineTool(),
-            new RectangleTool(),
-            new EllipseTool()
+            DefaultFill = new ImmutableSolidColorBrush(Colors.Yellow),
+            DefaultStroke = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Red), 2, null, PenLineCap.Round),
+            Drawables = new ObservableCollection<Drawable>(),
+            OverlayDrawables = new ObservableCollection<Drawable>()
+        };
+
+        Editor = new DrawingEditor(Drawing) 
+        { 
+            Tools = new AvaloniaList<Tool>()
+            {
+                new SelectionTool(),
+                new LineTool(),
+                new RectangleTool(),
+                new EllipseTool()
+            }
         };
 
         Editor.CurrentTool = Editor.Tools[0];
@@ -44,28 +50,36 @@ public class MainWindowViewModel : ViewModelBase
         var line0 = new LineDrawable()
         {
             Start = new PointDrawable(30, 30),
-            End = new PointDrawable(150, 150)
+            End = new PointDrawable(150, 150),
+            Fill = null,
+            Stroke = Drawing.DefaultStroke
         };
         drawing.Drawables.Add(line0);
 
         var ellipse0 = new EllipseDrawable()
         {
             TopLeft = new PointDrawable(30, 210),
-            BottomRight = new PointDrawable(90, 270)
+            BottomRight = new PointDrawable(90, 270),
+            Fill = Drawing.DefaultFill,
+            Stroke = Drawing.DefaultStroke
         };
         drawing.Drawables.Add(ellipse0);
 
         var rect0 = new RectangleDrawable()
         {
             TopLeft = new PointDrawable(210, 30),
-            BottomRight = new PointDrawable(270, 130)
+            BottomRight = new PointDrawable(270, 130),
+            Fill = Drawing.DefaultFill,
+            Stroke = Drawing.DefaultStroke
         };
         drawing.Drawables.Add(rect0);
 
         var rect1 = new RectangleDrawable()
         {
             TopLeft = new PointDrawable(240, 90),
-            BottomRight = new PointDrawable(300, 190)
+            BottomRight = new PointDrawable(300, 190),
+            Fill = Drawing.DefaultFill,
+            Stroke = Drawing.DefaultStroke
         };
         drawing.Drawables.Add(rect1);
 

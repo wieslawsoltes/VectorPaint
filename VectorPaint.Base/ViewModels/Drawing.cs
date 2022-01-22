@@ -12,15 +12,22 @@ namespace VectorPaint.ViewModels;
 public class Drawing : ReactiveObject, IDrawing
 {
     private ObservableCollection<Drawable>? _drawables;
+    private ObservableCollection<Drawable>? _overlayDrawables;
 
-    public Drawing()
-    {
-    }
+    public IBrush? DefaultFill { get; set; }
+    
+    public IPen? DefaultStroke { get; set; }
 
     public ObservableCollection<Drawable>? Drawables
     {
         get => _drawables;
         set => this.RaiseAndSetIfChanged(ref _drawables, value);
+    }
+
+    public ObservableCollection<Drawable>? OverlayDrawables
+    {
+        get => _overlayDrawables;
+        set => this.RaiseAndSetIfChanged(ref _overlayDrawables, value);
     }
 
     public IVisual? Canvas { get; set; }
@@ -70,6 +77,14 @@ public class Drawing : ReactiveObject, IDrawing
         if (_drawables is { })
         {
             foreach (var drawable in _drawables)
+            {
+                drawable.Draw(context);
+            }
+        }
+
+        if (_overlayDrawables is { })
+        {
+            foreach (var drawable in _overlayDrawables)
             {
                 drawable.Draw(context);
             }

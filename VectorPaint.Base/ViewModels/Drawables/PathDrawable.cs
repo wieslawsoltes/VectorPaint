@@ -6,12 +6,6 @@ namespace VectorPaint.ViewModels.Drawables;
 
 public class PathDrawable : GeometryDrawable
 {
-    public PathDrawable()
-    {
-        Brush = new ImmutableSolidColorBrush(Colors.Yellow);
-        Pen = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Red), 2, null, PenLineCap.Round, PenLineJoin.Miter, 10D);
-    }
-
     public override void Move(Vector delta)
     {
         if (Geometry is null)

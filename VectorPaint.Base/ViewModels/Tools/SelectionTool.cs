@@ -2,6 +2,8 @@
 using System.Linq;
 using Avalonia;
 using Avalonia.Input;
+using Avalonia.Media;
+using Avalonia.Media.Immutable;
 using VectorPaint.ViewModels.Drawables;
 
 namespace VectorPaint.ViewModels.Tools;
@@ -11,6 +13,7 @@ public class SelectionTool : Tool
     private readonly HashSet<Drawable> _selected = new();
     private Point _start;
     private bool _moving;
+    private RectangleDrawable? _rectangle;
 
     public override string Title => "Selection";
 
@@ -40,6 +43,19 @@ public class SelectionTool : Tool
         }
         else
         {
+            if (drawing.OverlayDrawables is { })
+            {
+                _rectangle = new RectangleDrawable()
+                {
+                    Fill = new ImmutableSolidColorBrush(Colors.Blue, 0.4),
+                    Stroke = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Blue), 1, null, PenLineCap.Round),
+                    TopLeft = new PointDrawable(point.X, point.Y),
+                    BottomRight = new PointDrawable(point.X, point.Y)
+                };
+
+                drawing.OverlayDrawables.Add(_rectangle);
+            }
+
             if (!e.KeyModifiers.HasFlag(KeyModifiers.Shift))
             {
                 _selected.Clear();
@@ -48,6 +64,9 @@ public class SelectionTool : Tool
 
         _start = point;
         e.Pointer.Capture(drawing.Input);
+        e.Handled = true;
+
+        drawing.Invalidate();
     }
 
     public override void OnPointerReleased(IDrawing drawing, PointerReleasedEventArgs e)
@@ -70,15 +89,17 @@ public class SelectionTool : Tool
                 _selected.Add(drawable);
             }
 
-            if (selected.Count > 0)
+            if (drawing.OverlayDrawables is { } && _rectangle is { })
             {
-                drawing.Invalidate();
+                drawing.OverlayDrawables.Remove(_rectangle);
+                _rectangle = null;
             }
+
+            drawing.Invalidate();
         }
 
         _moving = false;
         e.Pointer.Capture(null);
-
     }
 
     public override void OnPointerMoved(IDrawing drawing, PointerEventArgs e)
@@ -88,23 +109,34 @@ public class SelectionTool : Tool
             return;
         }
 
-        if (!_moving)
-        {
-            return;
-        }
-
         var point = e.GetCurrentPoint(drawing.Input).Position;
 
-        if (_selected.Count > 0)
+        if (_moving)
         {
-            foreach (var drawable in _selected)
+            if (_selected.Count > 0)
             {
-                drawable.Move(point - _start);
+                foreach (var drawable in _selected)
+                {
+                    drawable.Move(point - _start);
+                }
+
+                _start = point;
+
+                drawing.Invalidate();
+                e.Handled = true;
             }
+        }
+        else
+        {
+            if (_rectangle?.BottomRight is { })
+            {
+                _rectangle.BottomRight.X = point.X;
+                _rectangle.BottomRight.Y = point.Y;
+                _rectangle.Invalidate();
 
-            _start = point;
-
-            drawing.Invalidate();
+                drawing.Invalidate();
+                e.Handled = true;
+            }
         }
     }
 }

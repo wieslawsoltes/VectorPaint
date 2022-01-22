@@ -22,12 +22,6 @@ public class RectangleDrawable : GeometryDrawable
         set => this.RaiseAndSetIfChanged(ref _bottomRight, value);
     }
 
-    public RectangleDrawable()
-    {
-        Brush = new ImmutableSolidColorBrush(Colors.Yellow);
-        Pen = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Red), 2, null, PenLineCap.Round, PenLineJoin.Miter, 10D);
-    }
-
     public override void Move(Vector delta)
     {
         if (_topLeft is { } && _bottomRight is { })

@@ -20,6 +20,8 @@ public class LineTool : Tool
 
         _line = new LineDrawable()
         {
+            Fill = null,
+            Stroke = drawing.DefaultStroke,
             Start = new PointDrawable(point.X, point.Y),
             End = new PointDrawable(point.X, point.Y)
         };

@@ -8,10 +8,6 @@ public abstract class GeometryDrawable : Drawable
 {
     protected Geometry? Geometry { get; set; }
 
-    protected IBrush? Brush { get; set; }
-
-    protected IPen? Pen { get; set; }
-
     public override bool HitTest(Point point)
     {
         if (Geometry is null)
@@ -19,9 +15,9 @@ public abstract class GeometryDrawable : Drawable
             return false;
         }
 
-        if (Pen is { })
+        if (Stroke is { })
         {
-            if (Geometry.StrokeContains(Pen, point))
+            if (Geometry.StrokeContains(Stroke, point))
             {
                 return true;
             }
@@ -54,7 +50,7 @@ public abstract class GeometryDrawable : Drawable
 
     public override bool Intersects(Rect rect)
     {
-        if (Geometry is null || Pen is null)
+        if (Geometry is null || Stroke is null)
         {
             return false;
         }
@@ -72,7 +68,7 @@ public abstract class GeometryDrawable : Drawable
             return;
         }
 
-        context.DrawGeometry(Brush, Pen, Geometry);
+        context.DrawGeometry(Fill, Stroke, Geometry);
 
     }
 
@@ -113,7 +109,9 @@ public abstract class GeometryDrawable : Drawable
 
         var path = new PathDrawable
         {
-            Geometry = g1
+            Geometry = g1,
+            Fill = drawables[0].Fill,
+            Stroke = drawables[0].Stroke
         };
 
         return path;
@@ -121,6 +119,11 @@ public abstract class GeometryDrawable : Drawable
 
     public static GeometryDrawable? Group(FillRule fillRule, IList<GeometryDrawable> drawables)
     {
+        if (drawables.Count <= 1)
+        {
+            return null;
+        }
+
         var children = new GeometryCollection();
 
         foreach (var child in drawables)
@@ -142,7 +145,9 @@ public abstract class GeometryDrawable : Drawable
 
         var path = new PathDrawable
         {
-            Geometry = geometryGroup
+            Geometry = geometryGroup,
+            Fill = drawables[0].Fill,
+            Stroke = drawables[0].Stroke
         };
 
         return path;
