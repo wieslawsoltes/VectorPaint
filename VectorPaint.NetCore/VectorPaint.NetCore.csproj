@@ -20,6 +20,6 @@
     <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.11" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\VectorPaint\VectorPaint.csproj" />
+    <ProjectReference Include="..\VectorPaint.Base\VectorPaint.Base.csproj" />
   </ItemGroup>
 </Project>
