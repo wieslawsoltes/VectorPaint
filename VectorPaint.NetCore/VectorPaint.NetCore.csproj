@@ -14,10 +14,9 @@
     <RootNamespace>VectorPaint.NetCore</RootNamespace>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="Avalonia" Version="0.10.12" />
-    <PackageReference Include="Avalonia.Desktop" Version="0.10.12" />
-    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.12" />
-    <PackageReference Include="Avalonia.ReactiveUI" Version="0.10.12" />
+    <PackageReference Include="Avalonia.Desktop" Version="11.0.0-preview1" />
+    <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="11.0.0-preview1" />
+    <PackageReference Include="Avalonia.ReactiveUI" Version="11.0.0-preview1" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\VectorPaint.Base\VectorPaint.Base.csproj" />
