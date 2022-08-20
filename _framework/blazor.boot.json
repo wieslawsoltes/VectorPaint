@@ -93,8 +93,8 @@
       "System.Threading.ThreadPool.dll": "sha256-5M8XKNjBii9IaoOVGT4Z4w7yaWhwaoyKzd0bgquJ76E=",
       "System.Xml.ReaderWriter.dll": "sha256-UwUTvzSeK0Xt0NWYodKashrUxiCcoc1C4sKDy5uH4Hs=",
       "System.Xml.XDocument.dll": "sha256-aifd8kKX4zyhRJnTguuzizKnLmTK+BG95PHBSDcU61I=",
-      "VectorPaint.Base.dll": "sha256-bcQrZqDcUzE81nsiBqGmu1Y81OqIUuaC1lVgGSJpndE=",
-      "VectorPaint.Web.dll": "sha256-4M7jw88BY1Beb7ms28Q+hALnxTMuAk6LbKWuXB\/FsRg="
+      "VectorPaint.Base.dll": "sha256-zRvsTBK97dIeeX\/568x4IJCr693PWoU566XdmfpSSrA=",
+      "VectorPaint.Web.dll": "sha256-uXDiJevcHS\/JGypVn0yjvVtdg2CY+iiYP5vgZ6ePxoI="
     },
     "extensions": null,
     "lazyAssembly": null,
