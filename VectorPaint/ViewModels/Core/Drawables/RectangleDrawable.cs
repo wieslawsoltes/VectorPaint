@@ -5,7 +5,7 @@ using ReactiveUI;
 
 namespace VectorPaint.ViewModels.Drawables;
 
-public class EllipseDrawable : GeometryDrawable
+public class RectangleDrawable : GeometryDrawable
 {
     private PointDrawable? _topLeft;
     private PointDrawable? _bottomRight;
@@ -36,7 +36,7 @@ public class EllipseDrawable : GeometryDrawable
     {
         if (_topLeft is null || _bottomRight is null)
         {
-            return Rect.Empty;
+            return default;
         }
 
         return new Rect(
@@ -51,6 +51,6 @@ public class EllipseDrawable : GeometryDrawable
             return null;
         }
 
-        return new EllipseGeometry(ToRect());
+        return new RectangleGeometry(ToRect());
     }
 }

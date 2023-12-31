@@ -30,9 +30,9 @@ public class Drawing : ReactiveObject, IDrawing
         set => this.RaiseAndSetIfChanged(ref _overlayDrawables, value);
     }
 
-    public IVisual? Canvas { get; set; }
+    public Visual? Canvas { get; set; }
 
-    public IInputElement? Input { get; set; }
+    public InputElement? Input { get; set; }
 
     public Drawable? HitTest(Point point)
     {

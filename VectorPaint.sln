@@ -1,10 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorPaint.NetCore", "VectorPaint.NetCore\VectorPaint.NetCore.csproj", "{BAE0B0DC-A0B7-4DEB-987B-F5E2686F6ACD}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorPaint.Web", "VectorPaint.Web\VectorPaint.Web.csproj", "{FB12FAE9-D023-438B-95FE-03B96EE857BA}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorPaint.Base", "VectorPaint.Base\VectorPaint.Base.csproj", "{E93F9B08-9309-4BBE-884C-A0D787D5A422}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VectorPaint", "VectorPaint\VectorPaint.csproj", "{E93F9B08-9309-4BBE-884C-A0D787D5A422}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -12,14 +8,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{BAE0B0DC-A0B7-4DEB-987B-F5E2686F6ACD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BAE0B0DC-A0B7-4DEB-987B-F5E2686F6ACD}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BAE0B0DC-A0B7-4DEB-987B-F5E2686F6ACD}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BAE0B0DC-A0B7-4DEB-987B-F5E2686F6ACD}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FB12FAE9-D023-438B-95FE-03B96EE857BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FB12FAE9-D023-438B-95FE-03B96EE857BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FB12FAE9-D023-438B-95FE-03B96EE857BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FB12FAE9-D023-438B-95FE-03B96EE857BA}.Release|Any CPU.Build.0 = Release|Any CPU
 		{E93F9B08-9309-4BBE-884C-A0D787D5A422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{E93F9B08-9309-4BBE-884C-A0D787D5A422}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E93F9B08-9309-4BBE-884C-A0D787D5A422}.Release|Any CPU.ActiveCfg = Release|Any CPU

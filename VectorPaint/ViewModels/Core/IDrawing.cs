@@ -18,6 +18,6 @@ public interface IDrawing
     IEnumerable<Drawable> HitTest(Rect rect);
     void Draw(DrawingContext context, Rect bounds);
     void Invalidate();
-    IVisual? Canvas { get; set; }
-    IInputElement? Input { get; set; }
+    Visual? Canvas { get; set; }
+    InputElement? Input { get; set; }
 }

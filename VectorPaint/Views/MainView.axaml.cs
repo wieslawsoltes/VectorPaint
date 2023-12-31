@@ -6,7 +6,7 @@ using VectorPaint.ViewModels;
 
 namespace VectorPaint.Views;
 
-public class MainView : UserControl
+public partial class MainView : UserControl
 {
     public MainView()
     {

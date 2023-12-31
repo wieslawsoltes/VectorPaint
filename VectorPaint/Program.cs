@@ -2,7 +2,7 @@
 using Avalonia;
 using Avalonia.ReactiveUI;
 
-namespace VectorPaint.NetCore
+namespace VectorPaint
 {
     class Program
     {
