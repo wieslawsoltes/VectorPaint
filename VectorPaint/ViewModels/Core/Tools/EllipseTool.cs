@@ -1,4 +1,5 @@
 ﻿using Avalonia.Input;
+using VectorPaint.ViewModels.Core;
 using VectorPaint.ViewModels.Drawables;
 
 namespace VectorPaint.ViewModels.Tools;
@@ -17,6 +18,8 @@ public class EllipseTool : Tool
         }
 
         var point = e.GetCurrentPoint(drawing.Input).Position;
+        
+        point = SnapHelper.SnapPoint(point);
 
         _ellipse = new EllipseDrawable()
         {
@@ -57,6 +60,8 @@ public class EllipseTool : Tool
         if (_ellipse?.BottomRight is { })
         {
             var point = e.GetCurrentPoint(drawing.Input).Position;
+            
+            point = SnapHelper.SnapPoint(point);
 
             _ellipse.BottomRight.X = point.X;
             _ellipse.BottomRight.Y = point.Y;

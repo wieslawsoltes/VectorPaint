@@ -18,8 +18,8 @@ public class MainWindowViewModel : ViewModelBase
     {
         Drawing = new Drawing
         {
-            DefaultFill = new ImmutableSolidColorBrush(Colors.Yellow),
-            DefaultStroke = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Red), 2, null, PenLineCap.Round),
+            DefaultFill = new ImmutableSolidColorBrush(Colors.Transparent),
+            DefaultStroke = new ImmutablePen(new ImmutableSolidColorBrush(Colors.Black), 10, null, PenLineCap.Round),
             Drawables = new ObservableCollection<Drawable>(),
             OverlayDrawables = new ObservableCollection<Drawable>()
         };
@@ -37,7 +37,7 @@ public class MainWindowViewModel : ViewModelBase
 
         Editor.CurrentTool = Editor.Tools[0];
 
-        Demo(Drawing);
+        // Demo(Drawing);
     }
 
     private void Demo(IDrawing drawing)

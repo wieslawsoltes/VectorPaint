@@ -4,6 +4,7 @@ using Avalonia;
 using Avalonia.Input;
 using Avalonia.Media;
 using Avalonia.Media.Immutable;
+using VectorPaint.ViewModels.Core;
 using VectorPaint.ViewModels.Drawables;
 
 namespace VectorPaint.ViewModels.Tools;
@@ -79,7 +80,7 @@ public class SelectionTool : Tool
         if (!_moving)
         {
             var point = e.GetCurrentPoint(drawing.Input).Position;
-
+            
             var rect = new Rect(_start, point);
 
             var selected = drawing.HitTest(rect).ToList();
@@ -110,13 +111,15 @@ public class SelectionTool : Tool
         }
 
         var point = e.GetCurrentPoint(drawing.Input).Position;
-
+        
         if (_moving)
         {
             if (_selected.Count > 0)
             {
                 foreach (var drawable in _selected)
                 {
+                    point = SnapHelper.SnapPoint(point);
+
                     drawable.Move(point - _start);
                 }
 

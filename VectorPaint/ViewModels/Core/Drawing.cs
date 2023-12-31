@@ -72,7 +72,8 @@ public class Drawing : ReactiveObject, IDrawing
 
     public void Draw(DrawingContext context, Rect bounds)
     {
-        context.DrawRectangle(Brushes.WhiteSmoke, null, bounds);
+        // context.DrawRectangle(Brushes.WhiteSmoke, null, bounds);
+        context.DrawRectangle(Brushes.Transparent, null, bounds);
 
         if (_drawables is { })
         {

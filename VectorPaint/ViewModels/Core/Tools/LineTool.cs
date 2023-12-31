@@ -1,4 +1,5 @@
 ﻿using Avalonia.Input;
+using VectorPaint.ViewModels.Core;
 using VectorPaint.ViewModels.Drawables;
 
 namespace VectorPaint.ViewModels.Tools;
@@ -18,6 +19,8 @@ public class LineTool : Tool
 
         var point = e.GetCurrentPoint(drawing.Input).Position;
 
+        point = SnapHelper.SnapPoint(point);
+        
         _line = new LineDrawable()
         {
             Fill = null,
@@ -57,7 +60,9 @@ public class LineTool : Tool
         if (_line?.End is { })
         {
             var point = e.GetCurrentPoint(drawing.Input).Position;
-
+            
+            point = SnapHelper.SnapPoint(point);
+            
             _line.End.X = point.X;
             _line.End.Y = point.Y;
             _line.Invalidate();

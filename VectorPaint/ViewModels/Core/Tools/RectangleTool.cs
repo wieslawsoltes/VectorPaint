@@ -1,4 +1,5 @@
 ﻿using Avalonia.Input;
+using VectorPaint.ViewModels.Core;
 using VectorPaint.ViewModels.Drawables;
 
 namespace VectorPaint.ViewModels.Tools;
@@ -17,6 +18,8 @@ public class RectangleTool : Tool
         }
 
         var point = e.GetCurrentPoint(drawing.Input).Position;
+        
+        point = SnapHelper.SnapPoint(point);
 
         _rectangle = new RectangleDrawable()
         {
@@ -58,6 +61,8 @@ public class RectangleTool : Tool
         {
             var point = e.GetCurrentPoint(drawing.Input).Position;
 
+            point = SnapHelper.SnapPoint(point);
+            
             _rectangle.BottomRight.X = point.X;
             _rectangle.BottomRight.Y = point.Y;
             _rectangle.Invalidate();

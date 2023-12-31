@@ -30,12 +30,24 @@
       <Button Content="NonZero" Command="{Binding GroupNonZeroCommand}" />
     </DockPanel>
 
-    <c:VectorCanvas Name="VectorCanvas" 
-                    Drawing="{Binding Drawing}"
-                    Tools="{Binding Editor.Tools}"
-                    CurrentTool="{Binding Editor.CurrentTool}"
-                    ClipToBounds="True" />
-
+    <Border BoxShadow="4 11 30 1 #3F000000"
+            Background="White" 
+            Width="600"
+            Height="600"
+            ZIndex="-1">
+      <Panel>
+        <c:GridLines CellWidth="10"
+                            CellHeight="10"
+                            BoldSeparatorHorizontalSpacing="10"
+                            BoldSeparatorVerticalSpacing="10"
+                            IsGridEnabled="True" />
+        <c:VectorCanvas Name="VectorCanvas" 
+                        Drawing="{Binding Drawing}"
+                        Tools="{Binding Editor.Tools}"
+                        CurrentTool="{Binding Editor.CurrentTool}"
+                        ClipToBounds="True" />
+        </Panel>
+      </Border>
   </DockPanel>
 
 </UserControl>
